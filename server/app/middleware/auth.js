@@ -1,23 +1,23 @@
 const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 
-// Middleware function to authenticate incoming requests
-const auth = (req, res, next) => {
-  // Check for the "Authorization" header
-  if (!req.headers.authorization) {
-    return res.status(401).send({ message: "Unauthorized" });
+dotenv.config();
+
+module.exports = function (req, res, next) {
+  // Get token from header
+  const token = req.header("x-auth-token");
+
+  // Check if no token
+  if (!token) {
+    return res.status(401).json({ msg: "No token, authorization denied" });
   }
 
-  // Extract the JWT from the "Authorization" header
-  const token = req.headers.authorization.split(" ")[1];
-
-  // Verify the JWT using the JWT_SECRET
+  // Verify token
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+    req.user = decoded.user;
     next();
-  } catch (error) {
-    return res.status(401).send({ message: "Unauthorized" });
+  } catch (err) {
+    res.status(401).json({ msg: "Token is not valid" });
   }
 };
-
-module.exports = auth;

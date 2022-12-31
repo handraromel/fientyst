@@ -1,15 +1,16 @@
 const mongoose = require("mongoose");
 
-const categorySchema = new mongoose.Schema({
-  id: {
-    type: mongoose.Types.ObjectId,
-    required: true,
+const categorySchema = new mongoose.Schema(
+  {
+    category_name: {
+      type: String,
+      required: true,
+    },
   },
-  category_name: {
-    type: String,
-    required: true,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const Category = mongoose.model("Category", categorySchema);
 

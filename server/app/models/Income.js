@@ -1,23 +1,25 @@
 const mongoose = require("mongoose");
 
-const incomeSchema = new mongoose.Schema({
-  id: {
-    type: mongoose.Types.ObjectId,
-    required: true,
+const incomeSchema = new mongoose.Schema(
+  {
+    month: {
+      type: String,
+      required: true,
+    },
+    year: {
+      type: Number,
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
+    description: String,
   },
-  month: {
-    type: String,
-    required: true,
-  },
-  year: {
-    type: Number,
-    required: true,
-  },
-  amount: {
-    type: Number,
-    required: true,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const Income = mongoose.model("Income", budgetSchema);
 

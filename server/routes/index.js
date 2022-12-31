@@ -1,14 +1,13 @@
 const express = require("express");
-
 const router = express.Router();
 
-router.use("/auth", require("./auth"));
-router.use("/budget", require("./budget"));
-router.use("/expense", require("./expense"));
-router.use("/income", require("./income"));
-router.use("/merchant", require("./merchant"));
-router.use("/payment-method", require("./paymentMethod"));
-router.use("/savings", require("./savings"));
-router.use("/user", require("./user"));
+// Load middleware
+const auth = require("../app/middleware/auth");
+
+// Load routes
+const authRoutes = require("./auth");
+
+// Use auth middleware for all routes in authRoutes
+router.use("/auth", authRoutes, auth);
 
 module.exports = router;

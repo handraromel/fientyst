@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
+const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 
 const app = express();
@@ -10,6 +11,8 @@ const app = express();
 app.use(cors());
 
 app.use(bodyParser.json());
+
+dotenv.config();
 
 // Connect to the MongoDB database
 mongoose.connect(process.env.MONGODB_URI, {

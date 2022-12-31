@@ -1,28 +1,27 @@
 const mongoose = require("mongoose");
 
-const merchantSchema = new mongoose.Schema({
-  id: {
-    type: mongoose.Types.ObjectId,
-    required: true,
+const merchantSchema = new mongoose.Schema(
+  {
+    merchant_type: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    phone_number: {
+      type: String,
+    },
   },
-  type: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  account_number: {
-    type: String,
-    required: true,
-  },
-  user_id: {
-    type: mongoose.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const Merchant = mongoose.model("Merchant", merchantSchema);
 
