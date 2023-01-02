@@ -67,13 +67,13 @@ module.exports = {
         // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded.user;
+
+        // Get all categories
+        const categories = await Category.find();
+        res.json(categories);
       } catch (err) {
         return res.status(401).json({ msg: "Token is not valid" });
       }
-
-      // Get all categories
-      const categories = await Category.find();
-      res.json(categories);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
