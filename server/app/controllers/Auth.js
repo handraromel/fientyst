@@ -68,8 +68,6 @@ module.exports = {
       // Check if password is correct
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        // console.log(user.password);
-        // console.log(password);
         return res.status(400).json({ msg: "Invalid pass credentials" });
       }
 
@@ -97,10 +95,7 @@ module.exports = {
   },
   getAllUser: async (req, res) => {
     try {
-      //   const user = await User.findById(req.user.id).select("-password");
       const user = await User.find().select("-password -is_admin");
-      //   const userId = user._id.toString();
-      //   res.json({ userId });
       res.json(user);
     } catch (err) {
       console.error(err.message);
