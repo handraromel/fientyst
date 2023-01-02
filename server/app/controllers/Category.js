@@ -101,20 +101,22 @@ module.exports = {
       }
 
       try {
+        // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        if (decoded.user.id !== category.user.toString()) {
-          return res.status(401).json({ msg: "User not authorized" });
-        }
+
+        // Set the user ID in the category object
+        category.user = decoded.user.id;
+
+        // Update the category
+        category.category_name = req.body.categoryName;
+        const updatedCategory = await category.save();
+
+        // Send the updated response
+        res.json(updatedCategory);
       } catch (err) {
         console.error(err.message);
         return res.status(401).json({ msg: "Token is not valid" });
       }
-
-      // Update the category
-      category.category_name = req.body.categoryName;
-      const updatedCategory = await category.save();
-
-      res.json(updatedCategory);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
@@ -125,9 +127,9 @@ module.exports = {
   deleteCategory: async (req, res) => {
     try {
       // Validate the request body
-      if (!req.body.name) {
-        return res.status(400).json({ msg: "Name field is required" });
-      }
+      // if (!req.body.categoryName) {
+      //   return res.status(400).json({ msg: "Name field is required" });
+      // }
 
       // Check if the category exists
       const category = await Category.findById(req.params.id);
@@ -142,18 +144,21 @@ module.exports = {
       }
 
       try {
+        // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        if (decoded.user.id !== category.user.toString()) {
-          return res.status(401).json({ msg: "User not authorized" });
-        }
+
+        // Set the user ID in the category object
+        category.user = decoded.user.id;
+
+        // Delete the category
+        await category.remove();
+
+        // Send the deleted response
+        res.json({ msg: "Category removed" });
       } catch (err) {
         console.error(err.message);
         return res.status(401).json({ msg: "Token is not valid" });
       }
-
-      // Delete the category
-      await category.remove();
-      res.json({ msg: "Category removed" });
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
