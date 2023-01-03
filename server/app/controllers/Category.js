@@ -18,6 +18,7 @@ module.exports = {
       const categoryExists = await Category.findOne({
         category_name: req.body.categoryName,
       });
+      
       if (categoryExists) {
         return res.status(400).json({ msg: "Category already exists" });
       }
@@ -88,12 +89,6 @@ module.exports = {
     }
 
     try {
-      // Check if the category exists
-      const category = await Category.findById(req.params.id);
-      if (!category) {
-        return res.status(404).json({ msg: "Category not found" });
-      }
-
       // Check if the user is authorized to update the category
       const token = req.header("x-auth-token");
       if (!token) {
@@ -126,11 +121,6 @@ module.exports = {
   // Delete a category
   deleteCategory: async (req, res) => {
     try {
-      // Validate the request body
-      // if (!req.body.categoryName) {
-      //   return res.status(400).json({ msg: "Name field is required" });
-      // }
-
       // Check if the category exists
       const category = await Category.findById(req.params.id);
       if (!category) {

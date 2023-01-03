@@ -13,6 +13,17 @@ module.exports = {
     const { username, password, email, first_name, last_name, phone_number } =
       req.body;
 
+    if (
+      !username ||
+      !password ||
+      !email ||
+      !first_name ||
+      !last_name ||
+      !phone_number
+    ) {
+      return res.status(400).json({ msg: "All Name fields are required" });
+    }
+
     // Check if user exists
     let user = await User.findOne({ email });
     if (user) {

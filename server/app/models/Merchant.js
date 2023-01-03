@@ -14,9 +14,7 @@ const merchantSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    phone_number: {
-      type: String,
-    },
+    phone_number: String,
   },
   {
     timestamps: true,

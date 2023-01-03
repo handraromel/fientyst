@@ -10,24 +10,29 @@ const expenseSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    category_id: {
+    category: {
       type: mongoose.Types.ObjectId,
       ref: "Category",
       required: true,
     },
-    bank_account_id: {
+    bank_account: {
       type: mongoose.Types.ObjectId,
       ref: "BankAccount",
       required: true,
     },
-    merchant_id: {
+    merchant: {
       type: mongoose.Types.ObjectId,
       ref: "Merchant",
       required: true,
     },
-    payment_method_id: {
+    payment_method: {
       type: mongoose.Types.ObjectId,
       ref: "PaymentMethod",
+      required: true,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     description: String,

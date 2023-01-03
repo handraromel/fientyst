@@ -14,7 +14,7 @@ const paymentMethodSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    user_id: {
+    user: {
       type: mongoose.Types.ObjectId,
       ref: "User",
       required: true,
