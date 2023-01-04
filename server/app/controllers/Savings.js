@@ -6,17 +6,17 @@ const Saving = require("../models/Saving");
 dotenv.config();
 
 module.exports = {
-  // Add a new saving
+  // Add a new object
   addSaving: async (req, res) => {
     // Validate the request body
     const { month, year, amount } = req.body;
 
     if (!month || !year || !amount) {
-      return res.status(400).json({ msg: "All fields are required" });
+      return res.status(400).json({ msg: "Missing field(s), check again" });
     }
 
     try {
-      // Check if the user is authorized to create a new saving
+      // Check if the user is authorized to create a new object
       const token = req.header("x-auth-token");
       if (!token) {
         return res.status(401).json({ msg: "No token, authorization denied" });
@@ -25,10 +25,10 @@ module.exports = {
       try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        // Set the user from the decoded token as the user for the new saving
+        // Set the user from the decoded token as the user for the new object
         const user = decoded.user;
 
-        // Create the new saving
+        // Create the new object
         const newSaving = new Saving({
           month,
           year,
@@ -36,7 +36,7 @@ module.exports = {
           user: user.id,
         });
 
-        // Save the new saving to the database
+        // Save the new object to the database
         const savedSaving = await newSaving.save();
 
         res.json(savedSaving);
@@ -50,10 +50,10 @@ module.exports = {
     }
   },
 
-//   Get all savings
+//   Get all objects
     getSavings: async (req, res) => {
       try {
-        // Check if the user is authorized to get saving
+        // Check if the user is authorized to get object
         const token = req.header("x-auth-token");
         if (!token) {
           return res.status(401).json({ msg: "No token, authorization denied" });
@@ -64,7 +64,7 @@ module.exports = {
           const decoded = jwt.verify(token, process.env.JWT_SECRET);
           req.user = decoded.user;
 
-          // Get all savings
+          // Get all objects
           const savings = await Saving.find();
           res.json(savings);
         } catch (err) {
@@ -76,17 +76,22 @@ module.exports = {
       }
     },
 
-  // Update a saving
+  // Update a object
     updateSaving: async (req, res) => {
       // Validate the request body
       const { month, year, amount } = req.body;
 
       if (!month || !year || !amount) {
-        return res.status(400).json({ msg: "All fields are required" });
+        return res.status(400).json({ msg: "Missing field(s), check again" });
+      }
+
+      const saving = await Saving.findById(req.params.id);
+      if (!saving) {
+        return res.status(404).json({ msg: "Savings not found" });
       }
 
       try {
-        // Check if the user is authorized to update the saving
+        // Check if the user is authorized to update the object
         const token = req.header("x-auth-token");
         if (!token) {
           return res
@@ -98,10 +103,10 @@ module.exports = {
           // Verify the token
           const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-          // Set the user ID in the saving object
+          // Set the user ID in the object object
           saving.user = decoded.user.id;
 
-          // Update the saving
+          // Update the object
           saving.month = month;
           saving.year = year;
           saving.amount = amount;
@@ -119,16 +124,16 @@ module.exports = {
       }
     },
 
-//   Delete a saving
+//   Delete a object
     deleteSaving: async (req, res) => {
       try {
-        // Check if the saving exists
+        // Check if the object exists
         const saving = await Saving.findById(req.params.id);
         if (!saving) {
-          return res.status(404).json({ msg: "Category not found" });
+          return res.status(404).json({ msg: "User not found" });
         }
 
-        // Check if the user is authorized to delete the saving
+        // Check if the user is authorized to delete the object
         const token = req.header("x-auth-token");
         if (!token) {
           return res.status(401).json({ msg: "No token, authorization denied" });
@@ -138,14 +143,14 @@ module.exports = {
           // Verify the token
           const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-          // Set the user ID in the saving object
+          // Set the user ID in the object object
           saving.user = decoded.user.id;
 
-          // Delete the saving
+          // Delete the object
           await saving.remove();
 
           // Send the deleted response
-          res.json({ msg: "Saving data removed" });
+          res.json({ msg: "User removed" });
         } catch (err) {
           console.error(err.message);
           return res.status(401).json({ msg: "Token is not valid" });

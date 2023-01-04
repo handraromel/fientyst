@@ -6,7 +6,7 @@ const Category = require("../models/Category");
 dotenv.config();
 
 module.exports = {
-  // Add a new category
+  // Add a new object
   addCategory: async (req, res) => {
     // Validate the request body
     if (!req.body.categoryName) {
@@ -14,16 +14,16 @@ module.exports = {
     }
 
     try {
-      // Check if the category already exists
+      // Check if the object already exists
       const categoryExists = await Category.findOne({
         category_name: req.body.categoryName,
       });
-      
+
       if (categoryExists) {
         return res.status(400).json({ msg: "Category already exists" });
       }
 
-      // Check if the user is authorized to create a new category
+      // Check if the user is authorized to create a new object
       const token = req.header("x-auth-token");
       if (!token) {
         return res.status(401).json({ msg: "No token, authorization denied" });
@@ -32,16 +32,16 @@ module.exports = {
       try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        // Set the user from the decoded token as the user for the new category
+        // Set the user from the decoded token as the user for the new object
         const user = decoded.user;
 
-        // Create the new category
+        // Create the new object
         const newCategory = new Category({
           category_name: req.body.categoryName,
           user: user.id,
         });
 
-        // Save the new category to the database
+        // Save the new object to the database
         const savedCategory = await newCategory.save();
 
         res.json(savedCategory);
@@ -55,7 +55,7 @@ module.exports = {
     }
   },
 
-  // Get all categories
+  // Get all objects
   getCategories: async (req, res) => {
     try {
       // Check if the user is authorized to get categories
@@ -81,15 +81,20 @@ module.exports = {
     }
   },
 
-  // Update a category
+  // Update a object
   updateCategory: async (req, res) => {
     // Validate the request body
     if (!req.body.categoryName) {
       return res.status(400).json({ msg: "Category name is required" });
     }
 
+    const category = await Category.findById(req.params.id);
+    if (!category) {
+      return res.status(404).json({ msg: "Category not found" });
+    }
+
     try {
-      // Check if the user is authorized to update the category
+      // Check if the user is authorized to update the object
       const token = req.header("x-auth-token");
       if (!token) {
         return res.status(401).json({ msg: "No token, authorization denied" });
@@ -99,10 +104,10 @@ module.exports = {
         // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        // Set the user ID in the category object
+        // Set the user ID in the object object
         category.user = decoded.user.id;
 
-        // Update the category
+        // Update the object
         category.category_name = req.body.categoryName;
         const updatedCategory = await category.save();
 
@@ -118,16 +123,16 @@ module.exports = {
     }
   },
 
-  // Delete a category
+  // Delete a object
   deleteCategory: async (req, res) => {
     try {
-      // Check if the category exists
+      // Check if the object exists
       const category = await Category.findById(req.params.id);
       if (!category) {
         return res.status(404).json({ msg: "Category not found" });
       }
 
-      // Check if the user is authorized to delete the category
+      // Check if the user is authorized to delete the object
       const token = req.header("x-auth-token");
       if (!token) {
         return res.status(401).json({ msg: "No token, authorization denied" });
@@ -137,10 +142,10 @@ module.exports = {
         // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        // Set the user ID in the category object
+        // Set the user ID in the object object
         category.user = decoded.user.id;
 
-        // Delete the category
+        // Delete the object
         await category.remove();
 
         // Send the deleted response

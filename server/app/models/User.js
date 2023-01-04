@@ -26,11 +26,16 @@ const userSchema = new mongoose.Schema(
     },
     phone_number: {
       type: String,
+      default: '',
     },
     is_admin: {
       type: Boolean,
       default: false,
     },
+    is_active: {
+      type: Boolean,
+      default: false
+    }
   },
   {
     timestamps: true,

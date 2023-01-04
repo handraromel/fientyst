@@ -18,10 +18,9 @@ module.exports = {
       !password ||
       !email ||
       !first_name ||
-      !last_name ||
-      !phone_number
+      !last_name
     ) {
-      return res.status(400).json({ msg: "All Name fields are required" });
+      return res.status(400).json({ msg: "Missing field(s), check again" });
     }
 
     // Check if user exists
@@ -37,7 +36,7 @@ module.exports = {
       email,
       first_name,
       last_name,
-      phone_number,
+      phone_number
     });
 
     // Hash password
@@ -99,15 +98,6 @@ module.exports = {
           res.json({ token });
         }
       );
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server Error");
-    }
-  },
-  getAllUser: async (req, res) => {
-    try {
-      const user = await User.find().select("-password -is_admin");
-      res.json(user);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
