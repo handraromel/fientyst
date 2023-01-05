@@ -11,7 +11,7 @@ module.exports = {
     // Validate the request body
     const { merchant_type, name, address, phone_number } = req.body;
 
-    if (!merchant_type || !name || !address || !phone_number) {
+    if (!merchant_type || !name || !address) {
       return res.status(400).json({ msg: "Missing field(s), check again" });
     }
 

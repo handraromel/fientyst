@@ -14,7 +14,10 @@ const merchantSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    phone_number: String,
+    phone_number: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,

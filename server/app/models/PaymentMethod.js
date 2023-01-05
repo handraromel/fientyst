@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const paymentMethodSchema = new mongoose.Schema(
   {
-    type: {
+    payment_type: {
       type: String,
       required: true,
     },
@@ -14,7 +14,7 @@ const paymentMethodSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    user: {
+    user_id: {
       type: mongoose.Types.ObjectId,
       ref: "User",
       required: true,
