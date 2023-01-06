@@ -128,9 +128,9 @@ module.exports = {
   deleteBudget: async (req, res) => {
     try {
       // Check if the object exists
-      const budget = await Saving.findById(req.params.id);
+      const budget = await Budget.findById(req.params.id);
       if (!budget) {
-        return res.status(404).json({ msg: "User not found" });
+        return res.status(404).json({ msg: "Budget not found" });
       }
 
       // Check if the user is authorized to delete the object
@@ -150,7 +150,7 @@ module.exports = {
         await budget.remove();
 
         // Send the deleted response
-        res.json({ msg: "User removed" });
+        res.json({ msg: "Budget removed" });
       } catch (err) {
         console.error(err.message);
         return res.status(401).json({ msg: "Token is not valid" });

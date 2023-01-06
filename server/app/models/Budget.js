@@ -16,7 +16,7 @@ const budgetSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      default: "",
+      default: '',
     },
   },
   {

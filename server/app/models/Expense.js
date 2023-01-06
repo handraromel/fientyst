@@ -15,11 +15,6 @@ const expenseSchema = new mongoose.Schema(
       ref: "Category",
       required: true,
     },
-    bank_account_id: {
-      type: mongoose.Types.ObjectId,
-      ref: "BankAccount",
-      required: true,
-    },
     merchant_id: {
       type: mongoose.Types.ObjectId,
       ref: "Merchant",
@@ -37,7 +32,7 @@ const expenseSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      default: "",
+      default: '',
     },
   },
   {

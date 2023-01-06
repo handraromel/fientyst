@@ -1,8 +1,8 @@
 module.exports = {
   async up(db) {
-    await db.createCollection("payment-methods");
+    await db.createCollection("paymentmethods");
   },
   async down(db) {
-    await db.collection("payment-methods").drop();
+    await db.collection("paymentmethods").drop();
   },
 };

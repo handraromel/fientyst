@@ -130,7 +130,7 @@ module.exports = {
       // Check if the object exists
       const saving = await Saving.findById(req.params.id);
       if (!saving) {
-        return res.status(404).json({ msg: "User not found" });
+        return res.status(404).json({ msg: "Savings not found" });
       }
 
       // Check if the user is authorized to delete the object
@@ -150,7 +150,7 @@ module.exports = {
         await saving.remove();
 
         // Send the deleted response
-        res.json({ msg: "User removed" });
+        res.json({ msg: "Savings removed" });
       } catch (err) {
         console.error(err.message);
         return res.status(401).json({ msg: "Token is not valid" });

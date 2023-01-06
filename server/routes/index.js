@@ -21,9 +21,9 @@ router.use("/categories", categoryRoutes, auth);
 router.use("/savings", savingRoutes, auth);
 router.use("/merchants", merchantRoutes, auth);
 router.use("/users", userRoutes, auth);
-router.use("/payment-method", paymentMethodRoutes, auth);
-router.use("/income", incomeRoutes, auth);
-router.use("/budget", budgetRoutes, auth);
-router.use("/expense", expenseRoutes, auth);
+router.use("/payment-methods", paymentMethodRoutes, auth);
+router.use("/incomes", incomeRoutes, auth);
+router.use("/budgets", budgetRoutes, auth);
+router.use("/expenses", expenseRoutes, auth);
 
 module.exports = router;

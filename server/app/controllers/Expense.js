@@ -13,7 +13,6 @@ module.exports = {
       amount,
       date,
       category_id,
-      bank_account_id,
       merchant_id,
       payment_method_id,
       user_id,
@@ -24,7 +23,6 @@ module.exports = {
       !amount ||
       !date ||
       !category_id ||
-      !bank_account_id ||
       !merchant_id ||
       !payment_method_id ||
       !user_id
@@ -50,7 +48,6 @@ module.exports = {
           amount,
           date,
           category_id,
-          bank_account_id,
           merchant_id,
           payment_method_id,
           user_id,
@@ -105,7 +102,6 @@ module.exports = {
       amount,
       date,
       category_id,
-      bank_account_id,
       merchant_id,
       payment_method_id,
       user_id,
@@ -116,7 +112,6 @@ module.exports = {
       !amount ||
       !date ||
       !category_id ||
-      !bank_account_id ||
       !merchant_id ||
       !payment_method_id ||
       !user_id
@@ -147,7 +142,6 @@ module.exports = {
         expense.amount = amount;
         expense.date = date;
         expense.category_id = category_id;
-        expense.bank_account_id = bank_account_id;
         expense.merchant_id = merchant_id;
         expense.payment_method_id = payment_method_id;
         expense.user_id = user_id;
@@ -172,7 +166,7 @@ module.exports = {
       // Check if the object exists
       const expense = await Expense.findById(req.params.id);
       if (!expense) {
-        return res.status(404).json({ msg: "User not found" });
+        return res.status(404).json({ msg: "Expense not found" });
       }
 
       // Check if the user is authorized to delete the object
@@ -192,7 +186,7 @@ module.exports = {
         await expense.remove();
 
         // Send the deleted response
-        res.json({ msg: "User removed" });
+        res.json({ msg: "Expense removed" });
       } catch (err) {
         console.error(err.message);
         return res.status(401).json({ msg: "Token is not valid" });

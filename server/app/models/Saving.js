@@ -16,7 +16,7 @@ const savingSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   {
