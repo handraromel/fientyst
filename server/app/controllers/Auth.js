@@ -13,20 +13,20 @@ module.exports = {
     const { username, password, email, first_name, last_name, phone_number } =
       req.body;
 
-    if (
-      !username ||
-      !password ||
-      !email ||
-      !first_name ||
-      !last_name
-    ) {
+    if (!username || !password || !email || !first_name || !last_name) {
       return res.status(400).json({ msg: "Missing field(s), check again" });
     }
 
     // Check if user exists
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ msg: "User already exists" });
+      return res.status(400).json({ msg: "Email already exists" });
+    }
+
+    // Check if username already exists
+    user = await User.findOne({ username });
+    if (user) {
+      return res.status(400).json({ msg: "Username already exists" });
     }
 
     // Create new user
@@ -36,7 +36,7 @@ module.exports = {
       email,
       first_name,
       last_name,
-      phone_number
+      phone_number,
     });
 
     // Hash password

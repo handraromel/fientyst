@@ -1,20 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './css/nucleo-icons.css';
-import './css/nucleo-svg.css';
-import './css/material-dashboard.css?v=3.0.4';
-// import './js/core/popper.min';
-import './js/core/bootstrap.min';
-import './js/plugins/perfect-scrollbar.min';
-import './js/plugins/smooth-scrollbar.min';
+import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import AuthContextProvider from "./context/AuthContext";
+
+//Additional imports
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <AuthContextProvider>
     <App />
-  </React.StrictMode>
+    <ToastContainer autoClose={3000} />
+  </AuthContextProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
