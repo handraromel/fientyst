@@ -7,6 +7,14 @@ import { Navigate } from "react-router-dom";
 const authRoutes = (isAuthenticated) => {
   return [
     {
+      path: "/",
+      element: !isAuthenticated ? (
+        <Navigate replace to="/login" />
+      ) : (
+        <Navigate replace to="/dashboard" />
+      ),
+    },
+    {
       path: "/login",
       element: !isAuthenticated ? (
         <Login />
@@ -16,7 +24,7 @@ const authRoutes = (isAuthenticated) => {
     },
     {
       path: "/register",
-      element: !isAuthenticated ? (
+      element: isAuthenticated ? (
         <Register />
       ) : (
         <Navigate replace to="/login" />
