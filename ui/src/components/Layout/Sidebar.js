@@ -1,21 +1,19 @@
 import React, { useContext, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  //   const { isAuthenticated, logout } = useContext(AuthContext);
   const [isClassAdded, setIsClassAdded] = useState(true);
   const sidenavShow = document.getElementsByClassName("g-sidenav-show")[0];
   const iconSidenav = document.getElementById("iconSidenav");
 
   const toggleSidebar = () => {
-    setIsClassAdded(prevClassAdded => {
-      if (prevClassAdded) {
-         sidenavShow.classList.remove("g-sidenav-pinned");
-         sidenavShow.classList.add("g-sidenav-hidden");
-         iconSidenav.classList.add("d-none");
+    setIsClassAdded(() => {
+      if (isClassAdded) {
+        sidenavShow.classList.remove("g-sidenav-pinned");
+        sidenavShow.classList.add("g-sidenav-hidden");
+        iconSidenav.classList.add("d-none");
       }
-      return prevClassAdded
+      return isClassAdded;
     });
   };
 
@@ -56,7 +54,7 @@ const Navbar = () => {
             <li className="nav-item">
               <a
                 className="nav-link text-white active bg-gradient-primary"
-                href="../pages/dashboard.html"
+                href="#"
               >
                 <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i className="material-icons opacity-10">dashboard</i>
@@ -147,7 +145,7 @@ const Navbar = () => {
           <div className="mx-3">
             <a
               className="btn bg-gradient-primary mt-4 w-100"
-              href="https://www.creative-tim.com/product/material-dashboard-pro?ref=sidebarfree"
+              href="#"
               type="button"
             >
               Upgrade to pro

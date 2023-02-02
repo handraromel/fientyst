@@ -1,16 +1,18 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
+import useToast from "../../hooks/useToast";
 
 const Navbar = () => {
   const { logout } = useContext(AuthContext);
-  const [setIsClassAdded] = useState(true);
+  const [isClassAdded, setIsClassAdded] = useState(true);
   const sidenavShow = document.getElementsByClassName("g-sidenav-show")[0];
   const iconSidenav = document.getElementById("iconSidenav");
+  const { showToast } = useToast();
 
   const toggleSidebar = () => {
-    setIsClassAdded((prevClassAdded) => {
-      if (prevClassAdded) {
+    setIsClassAdded(() => {
+      if (isClassAdded) {
         sidenavShow.classList.remove("g-sidenav-hidden");
         sidenavShow.classList.add("g-sidenav-pinned");
         iconSidenav.classList.remove("d-none");
@@ -19,25 +21,18 @@ const Navbar = () => {
         sidenavShow.classList.add("g-sidenav-hidden");
         iconSidenav.classList.add("d-none");
       }
-      return !prevClassAdded;
+      return !isClassAdded;
     });
   };
 
+  const attemptLogout = () => {
+    logout();
+    if (logout) {
+      showToast("Successfully logged out", "success");
+    }
+  };
+
   return (
-    // <nav>
-    //   <Link to="/">Home</Link>
-    //   {isAuthenticated ? (
-    //     <>
-    //       <Link to="/dashboard">Dashboard</Link>
-    //       <button onClick={logout}>Logout</button>
-    //     </>
-    //   ) : (
-    //     <>
-    //       <Link to="/login">Login</Link>
-    //       <Link to="/register">Register</Link>
-    //     </>
-    //   )}
-    // </nav>
     <>
       <nav
         className="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
@@ -83,9 +78,9 @@ const Navbar = () => {
               </li>
               <li className="nav-item d-flex align-items-center">
                 <a
-                  href="/#"
+                  href="#"
                   className="nav-link text-body font-weight-bold px-0"
-                  onClick={logout}
+                  onClick={attemptLogout}
                 >
                   <i className="fa fa-user me-sm-1"></i>
                   <span className="d-sm-inline d-none">Sign Out</span>

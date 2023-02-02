@@ -2,11 +2,16 @@ import React, { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../context/AuthContext";
 import useToast from "../../hooks/useToast";
+import validate from "../../services/validation";
 
 const Login = () => {
   const { login } = useContext(AuthContext);
   const { showToast } = useToast();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [loading, setLoading] = useState(false);
 
   const loginAttempt = async (data) => {
@@ -45,12 +50,23 @@ const Login = () => {
                     className="text-start"
                     onSubmit={handleSubmit(loginAttempt)}
                   >
-                    <div className="input-group input-group-outline my-3">
+                    {errors.email && (
+                      <small className="text-danger">
+                        {errors.email.message}
+                      </small>
+                    )}
+                    <div className="input-group input-group-outline mb-3 mt-2">
                       <label className="form-label">Email</label>
                       <input
-                        type="email"
+                        type="text"
                         className="form-control"
-                        {...register("email", { required: true })}
+                        {...register("email", {
+                          required: true,
+                          pattern: {
+                            value: validate.email,
+                            message: "Invalid email format",
+                          },
+                        })}
                       />
                     </div>
                     <div className="input-group input-group-outline mb-3">
