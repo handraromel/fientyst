@@ -13,7 +13,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <AuthContextProvider>
     <App />
-    <ToastContainer autoClose={3000} />
+    <ToastContainer autoClose={2000} position="bottom-right" />
   </AuthContextProvider>
 );
 

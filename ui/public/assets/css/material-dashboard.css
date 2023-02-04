@@ -24958,10 +24958,10 @@ body:not(.dark-version) .sidenav.bg-transparent .collapse .nav-item .nav-link.ac
 .ripple {
   display: block;
   position: absolute;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 100%;
   transform: scale(0);
-  animation: ripple 0.65s linear;
+  animation: ripple 0.5s linear;
 }
 
 @keyframes ripple {

@@ -1,7 +1,18 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+const NavLink = ({ href, title, isActive, setActive }) => (
+  <Link
+    to={href}
+    className={`nav-link text-white ${isActive ? "active bg-gradient-primary" : ""}`}
+    onClick={() => setActive(title)}
+  >
+    {title}
+  </Link>
+);
+
 const Navbar = () => {
+  const [activeLink, setActiveLink] = useState("dashboard");
   const [isClassAdded, setIsClassAdded] = useState(true);
   const sidenavShow = document.getElementsByClassName("g-sidenav-show")[0];
   const iconSidenav = document.getElementById("iconSidenav");
@@ -30,18 +41,14 @@ const Navbar = () => {
             id="iconSidenav"
             onClick={toggleSidebar}
           ></i>
-          <a
-            className="navbar-brand m-0"
-            href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard "
-            target="_blank"
-          >
+          <a className="navbar-brand m-0" href={void 0} target="_blank">
             <img
               src="../assets/img/logo-ct.png"
               className="navbar-brand-img h-100"
               alt="main_logo"
             />
             <span className="ms-1 font-weight-bold text-white">
-              Material Dashboard 2
+              fientyst App
             </span>
           </a>
         </div>
@@ -52,92 +59,84 @@ const Navbar = () => {
         >
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a
-                className="nav-link text-white active bg-gradient-primary"
-                href="#"
+              <NavLink
+                href="/"
+                title="dashboard"
+                isActive={activeLink === "dashboard"}
+                setActive={setActiveLink}
               >
                 <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i className="material-icons opacity-10">dashboard</i>
                 </div>
                 <span className="nav-link-text ms-1">Dashboard</span>
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link text-white " href="../pages/tables.html">
+              <NavLink
+                href="/"
+                title="tables"
+                isActive={activeLink === "tables"}
+                setActive={setActiveLink}
+              >
                 <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i className="material-icons opacity-10">table_view</i>
                 </div>
                 <span className="nav-link-text ms-1">Tables</span>
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link text-white " href="../pages/billing.html">
+              <NavLink
+                href="/"
+                title="billing"
+                isActive={activeLink === "billing"}
+                setActive={setActiveLink}
+              >
                 <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i className="material-icons opacity-10">receipt_long</i>
                 </div>
                 <span className="nav-link-text ms-1">Billing</span>
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <a
-                className="nav-link text-white "
-                href="../pages/virtual-reality.html"
+              <NavLink
+                href="/"
+                title="vr"
+                isActive={activeLink === "vr"}
+                setActive={setActiveLink}
               >
                 <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i className="material-icons opacity-10">view_in_ar</i>
                 </div>
                 <span className="nav-link-text ms-1">Virtual Reality</span>
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link text-white " href="../pages/rtl.html">
+              <NavLink
+                href="/"
+                title="rtl"
+                isActive={activeLink === "rtl"}
+                setActive={setActiveLink}
+              >
                 <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i className="material-icons opacity-10">
                     format_textdirection_r_to_l
                   </i>
                 </div>
                 <span className="nav-link-text ms-1">RTL</span>
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <a
-                className="nav-link text-white "
-                href="../pages/notifications.html"
+              <NavLink
+                href="/"
+                title="notification"
+                isActive={activeLink === "notification"}
+                setActive={setActiveLink}
               >
                 <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i className="material-icons opacity-10">notifications</i>
                 </div>
                 <span className="nav-link-text ms-1">Notifications</span>
-              </a>
-            </li>
-            <li className="nav-item mt-3">
-              <h6 className="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">
-                Account pages
-              </h6>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-white " href="../pages/profile.html">
-                <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                  <i className="material-icons opacity-10">person</i>
-                </div>
-                <span className="nav-link-text ms-1">Profile</span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-white " href="../pages/sign-in.html">
-                <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                  <i className="material-icons opacity-10">login</i>
-                </div>
-                <span className="nav-link-text ms-1">Sign In</span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-white " href="../pages/sign-up.html">
-                <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                  <i className="material-icons opacity-10">assignment</i>
-                </div>
-                <span className="nav-link-text ms-1">Sign Up</span>
-              </a>
+              </NavLink>
             </li>
           </ul>
         </div>
@@ -148,7 +147,7 @@ const Navbar = () => {
               href="#"
               type="button"
             >
-              Upgrade to pro
+              Annissa - Handra
             </a>
           </div>
         </div>
