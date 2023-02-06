@@ -15,6 +15,7 @@ const AuthContextProvider = (props) => {
     const token = localStorage.getItem("token");
     if (token) {
       const decoded = jwt_decode(token);
+      console.log(decoded.exp);
       if (decoded.exp < Date.now() / 1000) {
         logout();
       } else {

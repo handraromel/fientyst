@@ -95,7 +95,7 @@ const Navbar = () => {
                     </a>
                   </li>
                   <li className="mb-2">
-                    <a className="dropdown-item border-radius-md" href="#">
+                    <Link className="dropdown-item border-radius-md" to="/register">
                       <div className="d-flex py-1">
                         <div className="my-auto">
                           <img
@@ -111,7 +111,7 @@ const Navbar = () => {
                           </h6>
                         </div>
                       </div>
-                    </a>
+                    </Link>
                   </li>
                   <li className="mb-2">
                     <a className="dropdown-item border-radius-md" href={void 0} onClick={logout}>
