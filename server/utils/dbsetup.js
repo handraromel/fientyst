@@ -5,9 +5,7 @@ const connect = mongoose.connect(url, {
   useUnifiedTopology: true,
 });
 connect
-  .then((db) => {
-    console.log("connected to db");
-  })
+  .then((db) => {})
   .catch((err) => {
     console.log(err);
   });

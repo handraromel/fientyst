@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import useToast from "../../hooks/useToast";
@@ -6,9 +6,28 @@ import useToast from "../../hooks/useToast";
 const Navbar = () => {
   const { logout } = useContext(AuthContext);
   const [isClassAdded, setIsClassAdded] = useState(true);
+  const [isSticky, setSticky] = useState("shadow-none");
+  const [background, setBackground] = useState("");
   const sidenavShow = document.getElementsByClassName("g-sidenav-show")[0];
   const iconSidenav = document.getElementById("iconSidenav");
   const { showToast } = useToast();
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
+
+  const handleScroll = () => {
+    if (window.pageYOffset > 50) {
+      setSticky("sticky-top");
+      setBackground("bg-gradient-dark shadow-dark top-1");
+    } else {
+      setSticky("shadow-none");
+      setBackground("");
+    }
+  };
 
   const toggleSidebar = () => {
     setIsClassAdded(() => {
@@ -35,18 +54,21 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
+        className={`navbar navbar-main navbar-expand-lg px-0 mx-4 border-radius-xl ${background} ${isSticky}`}
         id="navbarBlur"
         data-scroll="true"
       >
         <div className="container-fluid py-1 px-3">
+          <nav aria-label="breadcrumb">
+            <h5 className="font-weight-bolder text-white mb-0">Dashboard</h5>
+          </nav>
           <div
             className="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4"
             id="navbar"
           >
             <div className="ms-md-auto pe-md-3 d-flex align-items-center"></div>
             <ul className="navbar-nav justify-content-end">
-              <li className="nav-item d-xl-none ps-3 d-flex align-items-center">
+              <li className="nav-item d-xl-none px-3 d-flex align-items-center">
                 <a
                   href={void 0}
                   className="nav-link text-body p-0"
@@ -63,7 +85,7 @@ const Navbar = () => {
               <li className="nav-item dropdown d-flex align-items-center">
                 <a
                   href={void 0}
-                  className="font-weight-bold cursor-pointer btn btn-primary text-black-50"
+                  className="font-weight-bold cursor-pointer btn btn-primary text-white mb-0"
                   id="dropdownMenuButton"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
@@ -95,7 +117,10 @@ const Navbar = () => {
                     </a>
                   </li>
                   <li className="mb-2">
-                    <Link className="dropdown-item border-radius-md" to="/register">
+                    <Link
+                      className="dropdown-item border-radius-md"
+                      to="/register"
+                    >
                       <div className="d-flex py-1">
                         <div className="my-auto">
                           <img
@@ -114,7 +139,11 @@ const Navbar = () => {
                     </Link>
                   </li>
                   <li className="mb-2">
-                    <a className="dropdown-item border-radius-md" href={void 0} onClick={logout}>
+                    <a
+                      className="dropdown-item border-radius-md"
+                      href={void 0}
+                      onClick={attemptLogout}
+                    >
                       <div className="d-flex py-1">
                         <div className="my-auto">
                           <img
@@ -124,9 +153,7 @@ const Navbar = () => {
                         </div>
                         <div className="d-flex flex-column justify-content-center">
                           <h6 className="text-sm font-weight-normal mb-1">
-                            <span className="font-weight-bold">
-                              Logout
-                            </span>
+                            <span className="font-weight-bold">Logout</span>
                           </h6>
                         </div>
                       </div>

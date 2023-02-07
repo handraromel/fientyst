@@ -57,7 +57,7 @@ module.exports = {
     jwt.sign(
       payload,
       process.env.JWT_SECRET,
-      { expiresIn: 360000 },
+      { expiresIn: 86400 },
       (err, token) => {
         if (err) throw err;
         res.json({ token });
@@ -92,7 +92,7 @@ module.exports = {
       jwt.sign(
         payload,
         process.env.JWT_SECRET,
-        { expiresIn: 360000 },
+        { expiresIn: 86400 },
         (err, token) => {
           if (err) throw err;
           res.json({ token });
