@@ -9,34 +9,22 @@ const authRoutes = (isAuthenticated) => {
     {
       path: "/",
       element: !isAuthenticated ? (
-        <Navigate replace to="/login" />
+        <Navigate to="/login" />
       ) : (
-        <Navigate replace to="/dashboard" />
+        <Navigate to="/dashboard" />
       ),
     },
     {
       path: "/login",
-      element: !isAuthenticated ? (
-        <Login />
-      ) : (
-        <Navigate replace to="/dashboard" />
-      ),
+      element: !isAuthenticated ? <Login /> : <Navigate to="/dashboard" />,
     },
     {
       path: "/register",
-      element: isAuthenticated ? (
-        <Register />
-      ) : (
-        <Navigate replace to="/login" />
-      ),
+      element: isAuthenticated ? <Register /> : <Navigate to="/login" />,
     },
     {
       path: "/dashboard",
-      element: isAuthenticated ? (
-        <Dashboard />
-      ) : (
-        <Navigate replace to="/login" />
-      ),
+      element: isAuthenticated ? <Dashboard /> : <Navigate to="/login" />,
     },
   ];
 };

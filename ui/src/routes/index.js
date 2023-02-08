@@ -1,8 +1,8 @@
 import { useRoutes } from "react-router-dom";
-import authRoutes from "./authRoutes";
+import AuthRoutes from "./authRoutes";
 
 const Routes = (isAuthenticated) => {
-  const routes = useRoutes(authRoutes(isAuthenticated));
+  const routes = useRoutes(AuthRoutes(isAuthenticated));
   return routes;
 };
 
