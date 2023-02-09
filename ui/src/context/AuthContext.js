@@ -1,37 +1,28 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState } from "react";
 import jwt_decode from "jwt-decode";
 import api from "../services/api";
 
 const initialAuthState = {
-  isAuthenticated: false,
+  isAuthenticated: localStorage.getItem("isAuthenticated") === "true",
   user: null,
 };
 
 export const AuthContext = createContext(initialAuthState);
 
 const AuthContextProvider = (props) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    initialAuthState.isAuthenticated
+  );
   const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    if (token) {
-      const decoded = jwt_decode(token);
-      if (decoded.exp < Date.now() / 1000) {
-        logout();
-      } else {
-        setIsAuthenticated(true);
-        setUser(decoded);
-      }
-    }
-  }, []);
 
   const login = async (email, password) => {
     try {
       const response = await api.post("/auth/login", { email, password });
+      const decoded = jwt_decode(response.data.token);
       sessionStorage.setItem("token", response.data.token);
+      setUser(decoded);
       setIsAuthenticated(true);
-      setUser(jwt_decode(response.data.token));
+      localStorage.setItem("isAuthenticated", true);
     } catch (error) {
       console.log(error.response.data);
       return error.response.data;
@@ -47,9 +38,11 @@ const AuthContextProvider = (props) => {
         first_name,
         last_name,
       });
+      const decoded = jwt_decode(response.data.token);
       sessionStorage.setItem("token", response.data.token);
+      setUser(decoded);
       setIsAuthenticated(true);
-      setUser(jwt_decode(response.data.token));
+      localStorage.setItem("isAuthenticated", true);
     } catch (error) {
       console.log(error.response.data);
       return error.response.data;
@@ -60,9 +53,8 @@ const AuthContextProvider = (props) => {
     sessionStorage.removeItem("token");
     setIsAuthenticated(false);
     setUser(null);
+    localStorage.setItem("isAuthenticated", false);
   };
-
-  console.log(isAuthenticated)
 
   return (
     <AuthContext.Provider

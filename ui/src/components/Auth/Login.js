@@ -24,7 +24,7 @@ const Login = () => {
         showToast("Logged in successfully!", "success");
       }
     } catch (error) {
-      showToast("Invalid login credentials.", "error");
+      showToast("An error occurred while logging in.", "error");
     } finally {
       setLoading(false);
     }
@@ -50,32 +50,43 @@ const Login = () => {
                     className="text-start"
                     onSubmit={handleSubmit(loginAttempt)}
                   >
-                    {errors.email && (
-                      <small className="text-danger">
-                        {errors.email.message}
-                      </small>
-                    )}
-                    <div className="input-group input-group-outline mb-3 mt-2">
+                    <div
+                      className={`input-group input-group-outline my-1 ${
+                        errors.email ? "is-invalid" : null
+                      }`}
+                    >
                       <label className="form-label">Email</label>
                       <input
                         type="text"
                         className="form-control"
                         {...register("email", {
-                          required: true,
+                          required: "An email is required",
                           pattern: {
                             value: validate.email,
-                            message: "Invalid email format",
+                            message: "The email format is not valid",
                           },
                         })}
                       />
+                      <small className="text-danger text-end w-100 my-1">
+                        {errors.email?.message}
+                      </small>
                     </div>
-                    <div className="input-group input-group-outline mb-3">
+                    <div
+                      className={`input-group input-group-outline my-1 ${
+                        errors.password ? "is-invalid" : null
+                      }`}
+                    >
                       <label className="form-label">Password</label>
                       <input
                         type="password"
                         className="form-control"
-                        {...register("password", { required: true })}
+                        {...register("password", {
+                          required: "Please enter your password",
+                        })}
                       />
+                      <small className="text-danger text-end w-100 my-1">
+                        {errors.password?.message}
+                      </small>
                     </div>
                     <div className="text-center">
                       <button
