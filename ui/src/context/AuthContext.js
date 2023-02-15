@@ -1,10 +1,18 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import api from "../services/api";
 
 const initialAuthState = {
   isAuthenticated: localStorage.getItem("isAuthenticated") === "true",
   user: null,
+};
+
+const checkTokenExpiration = (decoded) => {
+  const currentTime = Date.now() / 1000;
+  if (decoded.exp < currentTime) {
+    return false;
+  }
+  return true;
 };
 
 export const AuthContext = createContext(initialAuthState);
@@ -14,6 +22,20 @@ const AuthContextProvider = (props) => {
     initialAuthState.isAuthenticated
   );
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      const decoded = jwt_decode(token);
+      if (checkTokenExpiration(decoded)) {
+        setUser(decoded);
+        setIsAuthenticated(true);
+        localStorage.setItem("isAuthenticated", true);
+      } else {
+        logout();
+      }
+    }
+  }, []);
 
   const login = async (email, password) => {
     try {
