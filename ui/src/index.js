@@ -5,7 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import AuthContextProvider from "./context/AuthContext";
 
 //Additional imports
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
@@ -13,7 +13,19 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <AuthContextProvider>
     <App />
-    <ToastContainer autoClose={2000} position="bottom-right" />
+    <ToastContainer
+        position="bottom-right"
+        autoClose={2000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover={false}
+        theme="dark"
+        transition={Slide}
+    />
   </AuthContextProvider>
 );
 

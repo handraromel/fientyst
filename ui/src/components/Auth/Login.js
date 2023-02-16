@@ -49,10 +49,11 @@ const Login = () => {
                     role="form"
                     className="text-start"
                     onSubmit={handleSubmit(loginAttempt)}
+                    autoComplete="off"
                   >
                     <div
-                      className={`input-group input-group-outline my-1 ${
-                        errors.email ? "is-invalid" : null
+                      className={`input-group input-group-outline my-2 ${
+                        errors.email ? "is-invalid is-filled" : null
                       }`}
                     >
                       <label className="form-label">Email</label>
@@ -67,13 +68,13 @@ const Login = () => {
                           },
                         })}
                       />
-                      <small className="text-danger text-end w-100 my-1">
+                      <small className="text-danger w-100 my-1">
                         {errors.email?.message}
                       </small>
                     </div>
                     <div
-                      className={`input-group input-group-outline my-1 ${
-                        errors.password ? "is-invalid" : null
+                      className={`input-group input-group-outline my-2 ${
+                        errors.password ? "is-invalid is-filled" : null
                       }`}
                     >
                       <label className="form-label">Password</label>
@@ -84,7 +85,7 @@ const Login = () => {
                           required: "Please enter your password",
                         })}
                       />
-                      <small className="text-danger text-end w-100 my-1">
+                      <small className="text-danger w-100 my-1">
                         {errors.password?.message}
                       </small>
                     </div>
