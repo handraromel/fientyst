@@ -1,25 +1,25 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import api from "../services/api";
 
 const useUser = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [users, setUsers] = useState([]);
 
-  const getUsers = useCallback(async () => {
+  const getUsers = async () => {
     setLoading(true);
     setError(null);
-
     try {
+      setLoading(true);
       const response = await api.get("/users");
-      setUsers(response.data);
-      console.log(response.data)
+      const data = await response.data;
+      setUsers(data);
     } catch (error) {
       setError(error);
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   return {
     loading,

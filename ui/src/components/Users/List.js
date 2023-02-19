@@ -1,12 +1,20 @@
 import { useEffect } from "react";
-import useUser from "../../hooks/useUser";
+import { useUserContext } from "../../context/UserContext";
 
 const UserList = () => {
-  const { loading, error, users, getUsers } = useUser();
+  const { loading, error, users, getUsers } = useUserContext();
 
   useEffect(() => {
     getUsers();
-  }, [getUsers]);
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <>
@@ -29,25 +37,29 @@ const UserList = () => {
                   <div className="d-flex flex-column">
                     <h6 className="mb-3 text-sm">{user.username}</h6>
                     <span className="mb-2 text-xs">
-                      Full Name:{" "}
+                      Full Name:
                       <span className="text-dark font-weight-bold ms-sm-2">
                         {user.first_name}&nbsp;{user.last_name}
                       </span>
                     </span>
                     <span className="mb-2 text-xs">
-                      Email Address:{" "}
+                      Email Address:
                       <span className="text-dark ms-sm-2 font-weight-bold">
                         {user.email}
                       </span>
                     </span>
                     <span className="text-xs">
-                      Date Created:{" "}
+                      Date Created:
                       <span className="text-dark ms-sm-2 font-weight-bold">
                         {new Date(user.createdAt).toLocaleString()}
                       </span>
                     </span>
                   </div>
                   <div className="ms-auto text-end">
+                    <a className="btn btn-link text-dark px-3 mb-0" href="#">
+                      <i className="material-icons text-sm me-2">reorder</i>
+                      Details
+                    </a>
                     <a className="btn btn-link text-dark px-3 mb-0" href="#">
                       <i className="material-icons text-sm me-2">edit</i>Edit
                     </a>

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { AuthContext } from "../../context/AuthContext";
 import useToast from "../../hooks/useToast";
 import validate from "../../services/validation";
-import UserList from "../Users/List";
+import UserListProvider from "../Users/ListProvider";
 
 const Register = () => {
   const { signup } = useContext(AuthContext);
@@ -37,7 +37,6 @@ const Register = () => {
       showToast("An error occurred while registering", "error");
     } finally {
       setLoading(false);
-      window.location.reload();
     }
   };
 
@@ -245,7 +244,7 @@ const Register = () => {
             </div>
           </div>
         </div>
-        <UserList />
+        <UserListProvider />
       </div>
     </>
   );

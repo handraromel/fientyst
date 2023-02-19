@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AuthContextProvider from "./context/AuthContext";
+import UserContextProvider from './context/UserContext';
 
 //Additional imports
 import { ToastContainer, Slide } from "react-toastify";
