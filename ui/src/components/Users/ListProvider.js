@@ -1,5 +1,5 @@
 import UserList from "./List";
-import UserContextProvider from "../../context/UserContext";
+import { UserContextProvider } from "../../context/UserContext";
 
 const UserListProvider = () => {
   return (

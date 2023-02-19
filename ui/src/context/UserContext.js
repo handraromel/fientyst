@@ -1,11 +1,7 @@
-import { createContext, useContext } from "react";
+import { createContext } from "react";
 import useUser from "../hooks/useUser";
 
 const UserContext = createContext();
-
-export const useUserContext = () => {
-  return useContext(UserContext);
-};
 
 const UserContextProvider = ({ children }) => {
   const { loading, error, users, getUsers } = useUser();
@@ -17,4 +13,4 @@ const UserContextProvider = ({ children }) => {
   );
 };
 
-export default UserContextProvider;
+export { UserContext, UserContextProvider };

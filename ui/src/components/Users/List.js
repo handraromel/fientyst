@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import { useUserContext } from "../../context/UserContext";
+import { useEffect, useContext } from "react";
+import { UserContext } from "../../context/UserContext";
 
 const UserList = () => {
-  const { loading, error, users, getUsers } = useUserContext();
+  const { loading, error, users, getUsers } = useContext(UserContext);
 
   useEffect(() => {
     getUsers();
