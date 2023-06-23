@@ -13,7 +13,7 @@ module.exports = {
       // Check if the user is authorized to get object
       const token = req.header("x-auth-token");
       if (!token) {
-        return res.status(401).json({ msg: "No token, authorization denied" });
+        return res.status(401).json({msg: "No token, authorization denied"});
       }
 
       try {
@@ -25,7 +25,37 @@ module.exports = {
         const users = await User.find();
         res.json(users);
       } catch (err) {
-        return res.status(401).json({ msg: "Token is not valid" });
+        return res.status(401).json({msg: "Token is not valid"});
+      }
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  },
+
+  // Get a specific user by ID
+  getUserById: async (req, res) => {
+    try {
+      // Check if the user is authorized to get the user
+      const token = req.header("x-auth-token");
+      if (!token) {
+        return res.status(401).json({msg: "No token, authorization denied"});
+      }
+
+      try {
+        // Verify the token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded.user;
+
+        // Get the user by ID
+        const user = await User.findById(req.params.id);
+        if (!user) {
+          return res.status(404).json({msg: "User not found"});
+        }
+
+        res.json(user);
+      } catch (err) {
+        return res.status(401).json({msg: "Token is not valid"});
       }
     } catch (err) {
       console.error(err.message);
@@ -36,23 +66,22 @@ module.exports = {
   // Update a saving
   updateUser: async (req, res) => {
     // Validate the request body
-    const { username, password, email, first_name, last_name, phone_number } =
-      req.body;
+    const {username, password, email, first_name, last_name, phone_number} = req.body;
 
     if (!username || !password || !email || !first_name || !last_name) {
-      return res.status(400).json({ msg: "Missing field(s), check again" });
+      return res.status(400).json({msg: "Missing field(s), check again"});
     }
 
     const userData = await User.findById(req.params.id);
     if (!userData) {
-      return res.status(404).json({ msg: "User not found" });
+      return res.status(404).json({msg: "User not found"});
     }
 
     try {
       // Check if the user is authorized
       const token = req.header("x-auth-token");
       if (!token) {
-        return res.status(401).json({ msg: "No token, authorization denied" });
+        return res.status(401).json({msg: "No token, authorization denied"});
       }
 
       try {
@@ -79,7 +108,7 @@ module.exports = {
         res.json(updatedUser);
       } catch (err) {
         console.error(err.message);
-        return res.status(401).json({ msg: "Token is not valid" });
+        return res.status(401).json({msg: "Token is not valid"});
       }
     } catch (err) {
       console.error(err.message);
@@ -93,13 +122,13 @@ module.exports = {
       // Check if the object exists
       const userData = await User.findById(req.params.id);
       if (!userData) {
-        return res.status(404).json({ msg: "User not found" });
+        return res.status(404).json({msg: "User not found"});
       }
 
       // Check if the user is authorized to delete the object
       const token = req.header("x-auth-token");
       if (!token) {
-        return res.status(401).json({ msg: "No token, authorization denied" });
+        return res.status(401).json({msg: "No token, authorization denied"});
       }
 
       try {
@@ -113,10 +142,10 @@ module.exports = {
         await userData.remove();
 
         // Send the deleted response
-        res.json({ msg: "User data removed" });
+        res.json({msg: "User data removed"});
       } catch (err) {
         console.error(err.message);
-        return res.status(401).json({ msg: "Token is not valid" });
+        return res.status(401).json({msg: "Token is not valid"});
       }
     } catch (err) {
       console.error(err.message);

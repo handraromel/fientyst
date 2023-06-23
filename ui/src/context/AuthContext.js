@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import {createContext, useState, useEffect} from "react";
 import jwt_decode from "jwt-decode";
 import api from "../services/api";
 
@@ -18,10 +18,10 @@ const checkTokenExpiration = (decoded) => {
 export const AuthContext = createContext(initialAuthState);
 
 const AuthContextProvider = (props) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    initialAuthState.isAuthenticated
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(initialAuthState.isAuthenticated);
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -35,19 +35,25 @@ const AuthContextProvider = (props) => {
         logout();
       }
     }
+    setIsLoading(false);
   }, []);
+
+  if (isLoading) {
+    return null;
+  }
 
   const login = async (email, password) => {
     try {
-      const response = await api.post("/auth/login", { email, password });
+      const response = await api.post("/auth/login", {email, password});
       const decoded = jwt_decode(response.data.token);
       sessionStorage.setItem("token", response.data.token);
       setUser(decoded);
       setIsAuthenticated(true);
       localStorage.setItem("isAuthenticated", true);
     } catch (error) {
-      console.log(error.response.data);
-      return error.response.data;
+      setError(error.response.data);
+      throw new Error(error.response.data);
+      // return error.response.data;
     }
   };
 
@@ -78,13 +84,17 @@ const AuthContextProvider = (props) => {
     localStorage.setItem("isAuthenticated", false);
   };
 
-  return (
-    <AuthContext.Provider
-      value={{ isAuthenticated, user, login, signup, logout }}
-    >
-      {props.children}
-    </AuthContext.Provider>
-  );
+  const checkUser = async (userId) => {
+    try {
+      const response = await api.get(`/users/${userId}`);
+      const user = response.data;
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  return <AuthContext.Provider value={{isAuthenticated, user, login, signup, logout, checkUser, error}}>{props.children}</AuthContext.Provider>;
 };
 
 export default AuthContextProvider;

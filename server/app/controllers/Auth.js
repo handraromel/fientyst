@@ -10,23 +10,22 @@ dotenv.config();
 module.exports = {
   register: async (req, res) => {
     // Destructure request body
-    const { username, password, email, first_name, last_name, phone_number } =
-      req.body;
+    const {username, password, email, first_name, last_name, phone_number} = req.body;
 
     if (!username || !password || !email || !first_name || !last_name) {
-      return res.status(400).json({ msg: "Missing field(s), check again" });
+      return res.status(400).json({msg: "Missing field(s), check again"});
     }
 
     // Check if user exists
-    let user = await User.findOne({ email });
+    let user = await User.findOne({email});
     if (user) {
-      return res.status(400).json({ msg: "Email already exists" });
+      return res.status(400).json({msg: "Email already exists"});
     }
 
     // Check if username already exists
-    user = await User.findOne({ username });
+    user = await User.findOne({username});
     if (user) {
-      return res.status(400).json({ msg: "Username already exists" });
+      return res.status(400).json({msg: "Username already exists"});
     }
 
     // Create new user
@@ -54,31 +53,30 @@ module.exports = {
     };
 
     // Sign token
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: 86400 },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token });
-      }
-    );
+    jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: 86400}, (err, token) => {
+      if (err) throw err;
+      res.json({token});
+    });
   },
   login: async (req, res) => {
     try {
       // Destructure request body
-      const { email, password } = req.body;
+      const {email, password} = req.body;
 
       // Check if user exists
-      const user = await User.findOne({ email });
+      const user = await User.findOne({email});
       if (!user) {
-        return res.status(400).json({ msg: "Invalid user credentials" });
+        return res.status(400).json({msg: "Invalid user credentials"});
+      }
+
+      if (!user.is_active) {
+        return res.status(400).json({msg: "User is not active, please contact administrator"});
       }
 
       // Check if password is correct
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(400).json({ msg: "Invalid pass credentials" });
+        return res.status(400).json({msg: "Invalid pass credentials"});
       }
 
       // Create payload
@@ -89,15 +87,10 @@ module.exports = {
       };
 
       // Sign token
-      jwt.sign(
-        payload,
-        process.env.JWT_SECRET,
-        { expiresIn: 86400 },
-        (err, token) => {
-          if (err) throw err;
-          res.json({ token });
-        }
-      );
+      jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: 86400}, (err, token) => {
+        if (err) throw err;
+        res.json({token});
+      });
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");

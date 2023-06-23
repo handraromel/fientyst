@@ -1,11 +1,11 @@
-import UserList from "../components/Users/List";
-import { Navigate } from "react-router-dom";
+import {Navigate} from "react-router-dom";
+import UserIndex from "../components/Users/Index";
 
 const userRoutes = (isAuthenticated) => {
   return [
     {
       path: "/users",
-      element: isAuthenticated ? <UserList /> : <Navigate to="/login" />,
+      element: isAuthenticated ? <UserIndex /> : <Navigate to="/login" />,
     },
   ];
 };

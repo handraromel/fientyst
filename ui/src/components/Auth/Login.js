@@ -5,7 +5,7 @@ import useToast from "../../hooks/useToast";
 import validate from "../../services/validation";
 
 const Login = () => {
-  const { login } = useContext(AuthContext);
+  const { error, login } = useContext(AuthContext);
   const { showToast } = useToast();
   const {
     register,
@@ -17,14 +17,14 @@ const Login = () => {
   const loginAttempt = async (data) => {
     try {
       setLoading(true);
-      const error = await login(data.email, data.password);
-      if (error) {
-        showToast("Invalid login credentials.", "error");
+      const loginFailed = await login(data.email, data.password);
+      if (loginFailed) {
+        showToast(error.msg, "error");
       } else {
         showToast("Logged in successfully!", "success");
       }
     } catch (error) {
-      showToast("An error occurred while logging in.", "error");
+      showToast("Please check your username or password", "error");
     } finally {
       setLoading(false);
     }

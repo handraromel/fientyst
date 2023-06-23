@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useState} from "react";
 import api from "../services/api";
 
 const useUser = () => {
@@ -21,11 +21,27 @@ const useUser = () => {
     }
   };
 
+  const getUserById = async (userId) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await api.get(`/users/${userId}`);
+      const data = response.data;
+      return data;
+    } catch (error) {
+      setError(error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     loading,
     error,
     users,
     getUsers,
+    getUserById,
   };
 };
 

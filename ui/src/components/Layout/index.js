@@ -1,12 +1,12 @@
-import { useEffect, useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import {useEffect, useContext} from "react";
+import {AuthContext} from "../../context/AuthContext";
 import Routes from "../../routes/index";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Sidebar from "./Sidebar";
 
 const Layout = () => {
-  const { isAuthenticated, user } = useContext(AuthContext);
+  const {isAuthenticated, user} = useContext(AuthContext);
   const routes = Routes(isAuthenticated);
 
   useEffect(() => {
@@ -54,8 +54,7 @@ const Layout = () => {
 
           rippleDiv = document.createElement("span");
           rippleDiv.classList.add("ripple");
-          rippleDiv.style.width = rippleDiv.style.height =
-            Math.max(targetEl.offsetWidth, targetEl.offsetHeight) + "px";
+          rippleDiv.style.width = rippleDiv.style.height = Math.max(targetEl.offsetWidth, targetEl.offsetHeight) + "px";
           targetEl.appendChild(rippleDiv);
 
           rippleDiv.style.left = e.offsetX - rippleDiv.offsetWidth / 2 + "px";
@@ -68,14 +67,14 @@ const Layout = () => {
         false
       );
     }
-  })
-   
+  });
+
   return (
     <>
       {isAuthenticated ? <Sidebar /> : null}
       <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         {isAuthenticated ? <Navbar /> : null}
-        <div className="container-fluid py-4"> 
+        <div className="container-fluid py-4">
           {routes}
           {isAuthenticated ? <Footer /> : null}
         </div>
