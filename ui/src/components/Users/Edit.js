@@ -5,7 +5,7 @@ import useToast from "../../hooks/useToast";
 import validate from "../../services/validation";
 
 const UserEdit = ({userId}) => {
-  const {loading, processError, getUserById, updateUser} = useContext(UserContext);
+  const {loading, processError, getUserById, updateUser, toggleUserStat} = useContext(UserContext);
   const {showToast} = useToast();
   const [initialUserData, setInitialUserData] = useState({});
   const [formReset, setFormReset] = useState(false);

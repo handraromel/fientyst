@@ -37,8 +37,19 @@ const UserContextProvider = ({children}) => {
     setLoading(true);
     try {
       const response = await api.patch(`/users/${userId}`, userData);
-      const updatedUser = response.data;
-      return updatedUser;
+      return response.data;
+    } catch (error) {
+      setProcessError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleUserStat = async (userId) => {
+    setLoading(true);
+    try {
+      const response = await api.patch(`/users/${userId}/change-status`);
+      return response.data;
     } catch (error) {
       setProcessError(error);
     } finally {
@@ -49,14 +60,13 @@ const UserContextProvider = ({children}) => {
   const deleteUser = async (userId) => {
     try {
       await api.delete(`/users/${userId}`);
-      // Return true or perform any necessary actions after deletion
       return true;
     } catch (error) {
       throw new Error(`Failed to delete user: ${error.message}`);
     }
   };
 
-  return <UserContext.Provider value={{loading, processError, getUsers, getUserById, updateUser, deleteUser}}>{children}</UserContext.Provider>;
+  return <UserContext.Provider value={{loading, processError, getUsers, getUserById, updateUser, toggleUserStat, deleteUser}}>{children}</UserContext.Provider>;
 };
 
 export {UserContext, UserContextProvider};
